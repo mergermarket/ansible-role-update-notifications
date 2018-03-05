@@ -22,6 +22,12 @@
     dest: /usr/bin/
     mode: 0755
 
+- name: config file
+  copy:
+    src: yum-cron-notify.conf
+    dest: /etc/yum/
+    mode: 0644
+
 - name: notify cron
   cron:
     cron_file: notify_updates

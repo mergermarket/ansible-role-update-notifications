@@ -14,7 +14,7 @@ fi
 
 metadata_url='http://169.254.169.254/latest/dynamic/instance-identity/document'
 
-updates="$(yum-cron /etc/yum/yum-cron-hourly.conf)"
+updates="$(yum-cron /etc/yum/yum-cron-notify.conf)"
 if [[ ! -z "$updates" ]]; then
     aws sns publish \
         --topic-arn "$TOPIC_ARN" \
