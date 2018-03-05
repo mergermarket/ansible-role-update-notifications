@@ -1,0 +1,27 @@
+#!/bin/bash
+
+set -e
+
+if [ -z "$TOPIC_ARN" ]; then
+    echo 'TOPIC_ARN must be set' >&1
+    exit 1
+fi
+
+if [ "$TOPIC_ARN" == '%NOTIFY_UPDATES_SNS_TOPIC%' ]; then
+    echo 'TOPIC_ARN contains placeholder, ignoring' >&1
+    exit 0
+fi
+
+metadata_url='http://169.254.169.254/latest/dynamic/instance-identity/document'
+
+updates="$(yum-cron /etc/yum/yum-cron-hourly.conf)"
+if [[ ! -z "$updates" ]]; then
+    aws sns publish \
+        --topic-arn "$TOPIC_ARN" \
+        --message "$(
+            echo "$updates" | jq -Rs "{
+                instance: $(curl -s $metadata_url),
+                updates: .
+            }"
+        )"
+fi

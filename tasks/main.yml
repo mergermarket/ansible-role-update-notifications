@@ -1,0 +1,35 @@
+- name: jq
+  yum:
+    name: jq
+
+- name: yum-cron
+  yum:
+    name: yum-cron
+
+- name: remove yum-cron hourly
+  file:
+    state: absent
+    path: "/etc/cron.hourly/0yum-hourly.cron"
+
+- name: remove yum-cron daily
+  file:
+    state: absent
+    path: "/etc/cron.hourly/0yum-daily.cron"
+
+- name: notify script
+  copy:
+    src: notify_updates
+    dest: /usr/bin/
+    mode: 0755
+
+- name: notify cron
+  cron:
+    cron_file: notify_updates
+    user: root
+    minute: 0
+    job: "/usr/bin/notify_updates &>> /var/log/notify_updates.log"
+
+- cronvar:
+    name: SNS_TOPIC
+    value: "%NOTIFY_UPDATES_SNS_TOPIC%"
+    cron_file: notify_updates
