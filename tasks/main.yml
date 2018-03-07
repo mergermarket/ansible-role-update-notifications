@@ -1,10 +1,13 @@
-- name: jq
+- name: yum dependencies
   yum:
-    name: jq
+    name: "{{ item }}"
+  with_items:
+    - jq
+    - yum-cron
 
-- name: yum-cron
-  yum:
-    name: yum-cron
+- name:
+  pip:
+    name: awscli
 
 - name: remove yum-cron hourly
   file:
@@ -36,6 +39,6 @@
     job: "/usr/bin/notify_updates &>> /var/log/notify_updates.log"
 
 - cronvar:
-    name: SNS_TOPIC
+    name: TOPIC_ARN
     value: "%NOTIFY_UPDATES_SNS_TOPIC%"
     cron_file: notify_updates

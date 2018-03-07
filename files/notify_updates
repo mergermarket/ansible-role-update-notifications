@@ -13,10 +13,12 @@ if [ "$TOPIC_ARN" == '%NOTIFY_UPDATES_SNS_TOPIC%' ]; then
 fi
 
 metadata_url='http://169.254.169.254/latest/dynamic/instance-identity/document'
+region=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone | sed 's/\(.*\)./\1/')
 
-updates="$(yum-cron /etc/yum/yum-cron-notify.conf)"
+updates="$(/usr/sbin/yum-cron /etc/yum/yum-cron-notify.conf)"
 if [[ ! -z "$updates" ]]; then
-    aws sns publish \
+    /usr/local/bin/aws sns publish \
+	--region "${region}" \
         --topic-arn "$TOPIC_ARN" \
         --message "$(
             echo "$updates" | jq -Rs "{
