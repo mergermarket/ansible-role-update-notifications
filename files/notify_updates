@@ -14,9 +14,12 @@ fi
 
 metadata_url='http://169.254.169.254/latest/dynamic/instance-identity/document'
 region=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone | sed 's/\(.*\)./\1/')
+ami_id=$(curl -s http://169.254.169.254/latest/meta-data/ami-id)
 
 updates="$(/usr/sbin/yum-cron /etc/yum/yum-cron-notify.conf)"
 if [[ ! -z "$updates" ]]; then
+    /usr/local/bin/trigger_ami_pipeline.py ${ami_id}
+
     /usr/local/bin/aws sns publish \
 	--region "${region}" \
         --topic-arn "$TOPIC_ARN" \
