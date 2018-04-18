@@ -46,7 +46,7 @@
 
 - cronvar:
     name: JENKINS_JOB_NAME
-    value: "%JENKINS_JOB_NAME%"
+    value: "%JENKINS_JOB_NAME_TEMPLATE%"
     cron_file: notify_updates
 
 - cronvar:
