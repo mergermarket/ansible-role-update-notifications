@@ -12,6 +12,16 @@ if [ "$TOPIC_ARN" == '%NOTIFY_UPDATES_SNS_TOPIC%' ]; then
     exit 0
 fi
 
+if [ -z "JENKINS_JOB_URL" ]; then
+    echo 'JENKINS_JOB_URL must be set' >&1
+    exit 1
+fi
+
+if [ "JENKINS_JOB_URL" == '%JENKINS_JOB_URL%' ]; then
+    echo 'JENKINS_JOB_URL contains placeholder, ignoring' >&1
+    exit 0
+fi
+
 metadata_url='http://169.254.169.254/latest/dynamic/instance-identity/document'
 region=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone | sed 's/\(.*\)./\1/')
 
@@ -23,6 +33,7 @@ if [[ ! -z "$updates" ]]; then
         --message "$(
             echo "$updates" | jq -Rs "{
                 instance: $(curl -s $metadata_url),
+                jenkins_job_url: \"$JENKINS_JOB_URL\",
                 updates: .
             }"
         )"

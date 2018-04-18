@@ -42,3 +42,8 @@
     name: TOPIC_ARN
     value: "%NOTIFY_UPDATES_SNS_TOPIC%"
     cron_file: notify_updates
+
+- cronvar:
+    name: JENKINS_JOB_URL
+    value: "%JENKINS_JOB_URL%"
+    cron_file: notify_updates
