@@ -51,5 +51,5 @@
 
 - cronvar:
     name: DATADOG_API_TOKEN
-    value: "%DATADOG_API_TOKEN%"
+    value: "%DATADOG_API_KEY_TEMPLATE%"
     cron_file: notify_updates
