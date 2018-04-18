@@ -2,23 +2,13 @@
 
 set -e
 
-if [ -z "$TOPIC_ARN" ]; then
-    echo 'TOPIC_ARN must be set' >&1
+if [ -z "JENKINS_JOB_NAME" ]; then
+    echo 'JENKINS_JOB_NAME must be set' >&1
     exit 1
 fi
 
-if [ "$TOPIC_ARN" == '%NOTIFY_UPDATES_SNS_TOPIC%' ]; then
-    echo 'TOPIC_ARN contains placeholder, ignoring' >&1
-    exit 0
-fi
-
-if [ -z "JENKINS_JOB_URL" ]; then
-    echo 'JENKINS_JOB_URL must be set' >&1
-    exit 1
-fi
-
-if [ "JENKINS_JOB_URL" == '%JENKINS_JOB_URL%' ]; then
-    echo 'JENKINS_JOB_URL contains placeholder, ignoring' >&1
+if [ "JENKINS_JOB_NAME" == '%JENKINS_JOB_NAME%' ]; then
+    echo 'JENKINS_JOB_NAME contains placeholder, ignoring' >&1
     exit 0
 fi
 
@@ -27,14 +17,6 @@ region=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-
 
 updates="$(/usr/sbin/yum-cron /etc/yum/yum-cron-notify.conf)"
 if [[ ! -z "$updates" ]]; then
-    /usr/local/bin/aws sns publish \
-	--region "${region}" \
-        --topic-arn "$TOPIC_ARN" \
-        --message "$(
-            echo "$updates" | jq -Rs "{
-                instance: $(curl -s $metadata_url),
-                jenkins_job_url: \"$JENKINS_JOB_URL\",
-                updates: .
-            }"
-        )"
+    updates_sha1="$(echo \"${updates}\" | sha1sum)"
+    /usr/local/bin/send_datadog_event.py "${updates}" "${updates_sha1}"
 fi
