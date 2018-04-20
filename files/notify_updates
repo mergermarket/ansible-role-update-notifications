@@ -27,6 +27,5 @@ region=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-
 
 updates="$(/usr/sbin/yum-cron /etc/yum/yum-cron-notify.conf)"
 if [[ ! -z "$updates" ]]; then
-    updates_sha1="$(echo \"${updates}\" | sha1sum)"
-    /usr/local/bin/send_datadog_event.py "${updates}" "${updates_sha1}"
+    /usr/local/bin/send_datadog_event.py "${updates}"
 fi
