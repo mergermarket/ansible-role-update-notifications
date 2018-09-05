@@ -1,7 +1,7 @@
 Update Notifications
 =========
 
-Send an SNS notification if there are updates available via `yum`.
+Send an event to Datadog if there are updates available via `yum`.
 
 Requirements
 ------------
@@ -11,28 +11,30 @@ yum
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+None. This role is intended for immutable infrastructure where the Ansible playbook is applied during the AMI bake (e.g. with Packer). It includes the file `/etc/cron.d/notify_updates` containing the following placeholders that should be replaced on instance creation (e.g. from UserData):
+
+* `%JENKINS_JOB_NAME_TEMPLATE%` - the value is included in the `job` tag on the event, so that the AMI build job can be triggered.
+* `%DATADOG_API_KEY_TEMPLATE%` - the API key for posting to Datadog.
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
-
-Example Playbook
-----------------
-
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+None
 
 License
 -------
 
-None
+https://opensource.org/licenses/MIT
+
+Copyright 2018 Mergermarket Limited
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+Acuris Platform Team
