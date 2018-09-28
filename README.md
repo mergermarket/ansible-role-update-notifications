@@ -1,6 +1,8 @@
 Update Notifications
 =========
 
+[![Build Status](https://travis-ci.org/mergermarket/ansible-role-update-notifications.svg?branch=master)](https://travis-ci.org/mergermarket/ansible-role-update-notifications)
+
 Send an event to Datadog if there are updates available via `yum`.
 
 Requirements
