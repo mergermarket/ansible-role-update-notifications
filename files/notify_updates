@@ -22,9 +22,6 @@ if [ "JENKINS_JOB_NAME" == '%JENKINS_JOB_NAME_TEMPLATE%' ]; then
     exit 0
 fi
 
-metadata_url='http://169.254.169.254/latest/dynamic/instance-identity/document'
-region=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone | sed 's/\(.*\)./\1/')
-
 if [ -z "STATELESS_INSTANCE" ]; then
     echo 'STATELESS_INSTANCE should be set to 0 or 1' >&1
 fi
