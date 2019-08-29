@@ -25,6 +25,10 @@ fi
 metadata_url='http://169.254.169.254/latest/dynamic/instance-identity/document'
 region=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone | sed 's/\(.*\)./\1/')
 
+if [ -z "STATELESS_INSTANCE" ]; then
+    echo 'STATELESS_INSTANCE should be set to 0 or 1' >&1
+fi
+
 updates="$(/usr/sbin/yum-cron /etc/yum/yum-cron-notify.conf)"
 if [[ ! -z "$updates" ]]; then
     /usr/local/bin/send_datadog_event.py "${updates}"
