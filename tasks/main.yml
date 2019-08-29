@@ -2,12 +2,7 @@
   yum:
     name: "{{ item }}"
   with_items:
-    - jq
     - yum-cron
-
-- name:
-  pip:
-    name: awscli
 
 - name: remove yum-cron hourly
   file:
@@ -44,12 +39,14 @@
     minute: 0
     job: "/usr/local/bin/notify_updates &>> /var/log/notify_updates.log"
 
-- cronvar:
+- name: Jenkins job name for API
+  cronvar:
     name: JENKINS_JOB_NAME
     value: "%JENKINS_JOB_NAME_TEMPLATE%"
     cron_file: notify_updates
 
-- cronvar:
+- name: Datadog API token
+  cronvar:
     name: DATADOG_API_TOKEN
     value: "%DATADOG_API_KEY_TEMPLATE%"
     cron_file: notify_updates
