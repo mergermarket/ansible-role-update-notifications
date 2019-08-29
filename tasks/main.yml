@@ -2,12 +2,7 @@
   yum:
     name: "{{ item }}"
   with_items:
-    - jq
     - yum-cron
-
-- name:
-  pip:
-    name: awscli
 
 - name: remove yum-cron hourly
   file:
