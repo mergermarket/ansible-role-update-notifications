@@ -50,3 +50,9 @@
     name: DATADOG_API_TOKEN
     value: "%DATADOG_API_KEY_TEMPLATE%"
     cron_file: notify_updates
+
+- name: Stateless instance flag
+  cronvar:
+    name: STATELESS_INSTANCE
+    value: "1"
+    cron_file: notify_updates
