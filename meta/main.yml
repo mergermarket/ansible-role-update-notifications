@@ -1,4 +1,5 @@
 galaxy_info:
+  role_name: update_notifications
   author: Acuris
   description: Installs files for sending software update notifications to Datadog
 
