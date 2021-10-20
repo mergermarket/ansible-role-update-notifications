@@ -1,0 +1,17 @@
+---
+name: Deploy to Ansible Galaxy
+on:
+  workflow_dispatch:
+  push:
+    branches-ignore:
+      - 'dependabot/**'
+
+jobs:
+  publish:
+    name: Test and publish
+    runs-on: ubuntu-latest
+    if: ${{ github.ref == 'refs/heads/main' }}
+    steps:
+      - uses: actions/checkout@v2
+      - run: ./test.sh
+      #- run: ansible-galaxy role import --token ${{ secrets.ANSIBLE_GALAXY_TOKEN }}  mergermarket ${{ github.event.repository.name }}
