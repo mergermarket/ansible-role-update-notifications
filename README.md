@@ -1,7 +1,7 @@
 Update Notifications
 =========
 
-[![Build Status](https://travis-ci.com/mergermarket/ansible-role-update-notifications.svg?branch=master)](https://travis-ci.com/mergermarket/ansible-role-update-notifications)
+[![Deploy to Ansible Galaxy](https://github.com/mergermarket/ansible-role-update-notifications/actions/workflows/deploy.yml/badge.svg)](https://github.com/mergermarket/ansible-role-update-notifications/actions/workflows/deploy.yml)
 
 Send an event to Datadog if there are updates available via `yum`.
 
