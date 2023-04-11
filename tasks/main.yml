@@ -1,64 +1,63 @@
-- name: yum dependencies
-  yum:
-    name: "{{ item }}"
-  with_items:
-    - yum-cron
+- name: Dnf dependencies
+  ansible.builtin.dnf:
+    name: dnf-automatic
 
-- name: remove yum-cron hourly
-  file:
+- name: Remove yum-cron hourly
+  ansible.builtin.file:
     state: absent
     path: "/etc/cron.hourly/0yum-hourly.cron"
 
-- name: remove yum-cron daily
-  file:
+- name: Remove yum-cron daily
+  ansible.builtin.file:
     state: absent
     path: "/etc/cron.hourly/0yum-daily.cron"
 
-- name: notify script
-  copy:
+- name: Notify script
+  ansible.builtin.copy:
     src: notify_updates
     dest: /usr/local/bin/
-    mode: 0755
+    mode: "0755"
 
-- name: config file
-  copy:
-    src: yum-cron-notify.conf
-    dest: /etc/yum/
-    mode: 0644
+- name: Config file
+  ansible.builtin.copy:
+    src: dnf-automatic.conf
+    dest: /etc/dnf/automatic.conf
+    mode: "0644"
 
-- name: send datadog event
-  copy:
+- name: Send datadog event
+  ansible.builtin.copy:
     src: send_datadog_event.py
     dest: /usr/local/bin
-    mode: 0755
+    mode: "0755"
 
-- name: notify cron
-  cron:
+- name: Notify cron
+  ansible.builtin.cron:
+    name: notify_updates
     cron_file: notify_updates
     user: root
-    minute: 0
+    minute: '0'
     job: "/usr/local/bin/notify_updates &>> /var/log/notify_updates.log"
 
 - name: Jenkins job name for API
-  cronvar:
+  community.general.cronvar:
     name: JENKINS_JOB_NAME
     value: "%JENKINS_JOB_NAME_TEMPLATE%"
     cron_file: notify_updates
 
 - name: Datadog API token
-  cronvar:
+  community.general.cronvar:
     name: DATADOG_API_TOKEN
     value: "%DATADOG_API_KEY_TEMPLATE%"
     cron_file: notify_updates
 
 - name: Cluster
-  cronvar:
+  community.general.cronvar:
     name: CLUSTER
     value: "%CLUSTER_TEMPLATE%"
     cron_file: notify_updates
 
 - name: Stateless instance flag
-  cronvar:
+  community.general.cronvar:
     name: STATELESS_INSTANCE
     value: "1"
     cron_file: notify_updates
