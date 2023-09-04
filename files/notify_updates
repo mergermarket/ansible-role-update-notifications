@@ -26,7 +26,7 @@ if [ -z "${STATELESS_INSTANCE}" ]; then
     echo 'STATELESS_INSTANCE should be set to 0 or 1' >&1
 fi
 
-updates="$(/usr/sbin/yum-cron /etc/yum/yum-cron-notify.conf)"
+updates="$(/usr/sbin/dnf-automatic /etc/dnf/automatic.conf)"
 if [[ -n "${updates}" ]]; then
     /usr/local/bin/send_datadog_event.py "${updates}"
 fi
