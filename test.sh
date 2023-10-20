@@ -16,6 +16,6 @@ docker container run --rm --name "${IMAGE_ID}" \
     "${IMAGE_ID}" \
     ansible-lint .
 
-docker container run --rm -i -v "$(pwd)":"$(pwd)" -w "$(pwd)" \
+docker container run --rm -t -v "$(pwd)":"$(pwd)" -w "$(pwd)" \
     koalaman/shellcheck \
     ./files/notify_updates
