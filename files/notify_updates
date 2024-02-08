@@ -26,7 +26,7 @@ if [ -z "${STATELESS_INSTANCE}" ]; then
     echo 'STATELESS_INSTANCE should be set to 0 or 1' >&1
 fi
 
-updates="$(/usr/sbin/dnf-automatic /etc/dnf/automatic.conf)"
+updates="$(/usr/bin/dnf check-update | tail -n +2 )"
 if [[ -n "${updates}" ]]; then
     /usr/local/bin/send_datadog_event.py "${updates}"
 fi
