@@ -12,14 +12,9 @@ if [ "${DATADOG_API_TOKEN}" == '%DATADOG_API_KEY_TEMPLATE%' ]; then
     exit 0
 fi
 
-if [ -z "${JENKINS_JOB_NAME}" ]; then
-    echo 'JENKINS_JOB_NAME must be set' >&1
+if [ -z "${AMI_BUILD_JOB_NAME}" ]; then
+    echo 'AMI_BUILD_JOB_NAME must be set' >&1
     exit 1
-fi
-
-if [ "${JENKINS_JOB_NAME}" == '%JENKINS_JOB_NAME_TEMPLATE%' ]; then
-    echo 'JENKINS_JOB_NAME contains placeholder, ignoring' >&1
-    exit 0
 fi
 
 if [ -z "${STATELESS_INSTANCE}" ]; then
