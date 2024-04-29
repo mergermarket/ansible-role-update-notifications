@@ -32,7 +32,7 @@
     minute: '0'
     job: "/usr/local/bin/notify_updates &>> /var/log/notify_updates.log"
 
-- name: Jenkins job name for API
+- name: Ami Build job name for API
   community.general.cronvar:
     name: AMI_BUILD_JOB_NAME
     value: "%AMI_BUILD_JOB_NAME%"
