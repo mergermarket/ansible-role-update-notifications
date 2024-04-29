@@ -17,6 +17,11 @@ if [ -z "${AMI_BUILD_JOB_NAME}" ]; then
     exit 1
 fi
 
+if [ "${AMI_BUILD_JOB_NAME}" == '%AMI_BUILD_JOB_NAME%' ]; then
+    echo 'AMI_BUILD_JOB_NAME contains placeholder, ignoring' >&1
+    exit 0
+fi
+
 if [ -z "${STATELESS_INSTANCE}" ]; then
     echo 'STATELESS_INSTANCE should be set to 0 or 1' >&1
 fi
