@@ -15,7 +15,6 @@ Role Variables
 
 None. This role is intended for immutable infrastructure where the Ansible playbook is applied during the AMI bake (e.g. with Packer). It includes the file `/etc/cron.d/notify_updates` containing the following placeholders that should be replaced on instance creation (e.g. from UserData):
 
-* `%JENKINS_JOB_NAME_TEMPLATE%` - the value is included in the `job` tag on the event, so that the AMI build job can be triggered.
 * `%DATADOG_API_KEY_TEMPLATE%` - the API key for posting to Datadog.
 
 Dependencies

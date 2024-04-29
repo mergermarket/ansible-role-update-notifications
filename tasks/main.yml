@@ -32,12 +32,6 @@
     minute: '0'
     job: "/usr/local/bin/notify_updates &>> /var/log/notify_updates.log"
 
-- name: Jenkins job name for API
-  community.general.cronvar:
-    name: JENKINS_JOB_NAME
-    value: "%JENKINS_JOB_NAME_TEMPLATE%"
-    cron_file: notify_updates
-
 - name: Datadog API token
   community.general.cronvar:
     name: DATADOG_API_TOKEN

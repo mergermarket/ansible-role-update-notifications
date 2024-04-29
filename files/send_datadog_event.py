@@ -11,7 +11,7 @@ def main(argv):
         'api_key': os.getenv('DATADOG_API_TOKEN'),
     }
     updates = argv[0]
-    jenkins_job_name = os.getenv('JENKINS_JOB_NAME')
+    ami_build_job_name = os.getenv('AMI_BUILD_JOB_NAME')
 
     cluster = os.getenv('CLUSTER')
     stateless = bool(int(os.getenv('STATELESS_INSTANCE', 1)))
@@ -26,7 +26,7 @@ def main(argv):
     text = 'update-notifier (yum-cron) has flagged ' \
            'the following updates \n{}'.format(updates)
     tags = [
-        'job:{}'.format(jenkins_job_name),
+        'job:{}'.format(ami_build_job_name),
         'stateless:{}'.format(stateless),
         'cluster:{}'.format(cluster),
         'architecture:{}'.format(architecture),
