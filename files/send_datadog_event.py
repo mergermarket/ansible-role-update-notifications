@@ -3,6 +3,7 @@
 import os
 import sys
 from datadog import initialize, api
+import subprocess
 
 
 def main(argv):
@@ -14,7 +15,11 @@ def main(argv):
 
     cluster = os.getenv('CLUSTER')
     stateless = bool(int(os.getenv('STATELESS_INSTANCE', 1)))
-
+    
+    process = subprocess.Popen(['uname', '-m'], stdout=subprocess.PIPE)
+    output, error = process.communicate()
+    architecture = output.decode().strip()
+    
     initialize(**options)
 
     title = "Software Update!"
@@ -24,6 +29,7 @@ def main(argv):
         'job:{}'.format(jenkins_job_name),
         'stateless:{}'.format(stateless),
         'cluster:{}'.format(cluster),
+        'architecture:{}'.format(architecture),
     ]
 
     api.Event.create(title=title, text=text, tags=tags)
