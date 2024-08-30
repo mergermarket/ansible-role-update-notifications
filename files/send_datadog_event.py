@@ -4,6 +4,7 @@ import os
 import sys
 from datadog import initialize, api
 import subprocess
+import socket
 
 
 def main(argv):
@@ -19,7 +20,8 @@ def main(argv):
     process = subprocess.Popen(['uname', '-m'], stdout=subprocess.PIPE)
     output, error = process.communicate()
     architecture = output.decode().strip()
-    
+    priv_ip = socket.gethostbyname(socket.gethostname())
+
     initialize(**options)
 
     title = "Software Update!"
@@ -30,6 +32,7 @@ def main(argv):
         'stateless:{}'.format(stateless),
         'cluster:{}'.format(cluster),
         'architecture:{}'.format(architecture),
+        'priv_ip:{}'.format(priv_ip),
     ]
 
     api.Event.create(title=title, text=text, tags=tags)
