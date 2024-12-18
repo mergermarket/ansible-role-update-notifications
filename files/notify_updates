@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -eou pipefail
+set -ou pipefail
 
 if [ -z "${DATADOG_API_TOKEN}" ]; then
     echo 'DATADOG_API_TOKEN must be set' >&1
